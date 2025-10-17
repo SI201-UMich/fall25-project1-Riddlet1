@@ -35,7 +35,18 @@ def get_regions():
 #    print(region_list)
     return region_list
 
+def get_crops():
+    crop_list = []
+    for sample in load_file():
+        if sample["Crop"] not in crop_list:
+            crop_list.append(sample["Crop"])       
+    print(crop_list)
+    return crop_list
+    
+
+
 
 load_file()
 get_soils()
 get_regions()
+get_crops()
