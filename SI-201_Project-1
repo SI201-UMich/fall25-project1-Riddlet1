@@ -1,0 +1,41 @@
+# SI 201 Project 1
+# Your name: Jonah Riddle
+# Your student id: 9452 1799
+# Your email: rjonah@umich.edu
+# Who or what you worked with on this homework (including generative AI like ChatGPT): None
+
+import csv
+
+#def main():
+#    pass
+
+def load_file():
+    data_list = []
+    with open("C:\\Users\\thefo\\OneDrive\\Documents\\SI 201\\fall25-project1-Riddlet1\\crop_yield.csv", "r") as file:
+        data = csv.DictReader(file)
+        for row in data:
+            data_list.append(row)
+
+#    print(data_list)
+    return data_list
+
+def get_soils():
+    soil_list = []
+    for sample in load_file():
+        if sample["Soil_Type"] not in soil_list:
+            soil_list.append(sample["Soil_Type"])
+#    print(soil_list)
+    return soil_list
+
+def get_regions():
+    region_list = []
+    for sample in load_file():
+        if sample["Region"] not in region_list:
+            region_list.append(sample["Region"])
+#    print(region_list)
+    return region_list
+
+
+load_file()
+get_soils()
+get_regions()
