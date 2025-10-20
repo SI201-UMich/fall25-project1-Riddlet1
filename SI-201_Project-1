@@ -32,22 +32,27 @@ def load_file():
 #    print(region_list)
 #    return region_list
 
-#def get_crops():
-#    crop_list = []
-#    for sample in load_file():
-#        if sample["Crop"] not in crop_list:
-#            crop_list.append(sample["Crop"])       
+def get_crops():
+    crop_list = []
+    for sample in load_file():
+        if sample["Crop"] not in crop_list:
+            crop_list.append(sample["Crop"])       
 #    print(crop_list)
-#    return crop_list
+    return crop_list
 
     
-def get_harvest(crop, region, soil):
-    yield_list = []
-    for sample in load_file(): 
-        if sample["Crop"] == crop and sample["Region"] == region and sample["Soil_Type"] == soil:
-            yield_list.append(float(sample["Yield_tons_per_hectare"]))
-#    print(sum(yield_list) / len(yield_list))
-    return sum(yield_list) / len(yield_list)
+def compare_harvest(region, soil):
+    totals = {}
+    for crop in get_crops():
+#        print(crop)
+        yields = []
+        for sample in load_file(): 
+            if sample["Region"] == region and sample["Soil_Type"] == soil:
+                yields.append(float(sample["Yield_tons_per_hectare"]))
+        totals[crop] = sum(yields) / len(yields)
+        print(totals)
+#    print(totals)
+    return totals
 
 
 
@@ -55,5 +60,5 @@ def get_harvest(crop, region, soil):
 load_file()
 #get_soils()
 #get_regions()
-#get_crops()
-get_harvest("Cotton", "West", "Sandy")
+get_crops()
+compare_harvest("West", "Sandy")
