@@ -16,21 +16,6 @@ def load_file():
 #    print(data_list)
     return data_list
 
-#def get_soils():
-#    soil_list = []
-#    for sample in load_file():
-#        if sample["Soil_Type"] not in soil_list:
-#            soil_list.append(sample["Soil_Type"].lower())
-#    print(soil_list)
-#    return soil_list
-
-#def get_regions():
-#    region_list = []
-#    for sample in load_file():
-#        if sample["Region"] not in region_list:
-#            region_list.append(sample["Region"])
-#    print(region_list)
-#    return region_list
 
 def get_crops():
     crop_list = []
@@ -55,10 +40,40 @@ def compare_harvest(region, soil):
     return totals
 
 
+def compare_fertilizer_use(rainfall_min, weather_condition):
+    rainfall_list = []
+    weather_list = []
+    for sample in load_file():
+#        print(float(sample["Rainfall_mm"]))
+        if float(sample["Rainfall_mm"]) > rainfall_min:
+#            print("higher")
+            if sample["Fertilizer_Used"] == "True":
+#                print("True")
+                rainfall_list.append(100)
+            if sample["Fertilizer_Used"] == "False":
+                rainfall_list.append(0)
+#        print(rainfall_list)
+        if sample["Weather_Condition"] == weather_condition:
+            if sample["Fertilizer_Used"] == "True":
+                weather_list.append(100)
+            if sample["Fertilizer_Used"] == "False":
+                weather_list.append(0)
+    if len(rainfall_list) > 0:
+        rainfall_percent = round(sum(rainfall_list) / len(rainfall_list), 2)
+    else:
+        rainfall_percent = "None"
+    if len(weather_list) > 0:
+        weather_percent = round(sum(weather_list) / len(weather_list), 2)
+    else:
+        weather_percent = "None"
+    print(f"Percentage of fertilizer used with over {rainfall_min}mm of rainfall: {rainfall_percent} \n Percentage of fertilizer used in {weather_condition} conditions: {weather_percent}")
+    return f"Percentage of fertilizer used with over {rainfall_min}mm of rainfall: {rainfall_percent} \n Percentage of fertilizer used in {weather_condition} conditions: {weather_percent}"
+
+    
+    
 
 
 load_file()
-#get_soils()
-#get_regions()
 get_crops()
 compare_harvest("West", "Sandy")
+compare_fertilizer_use(800, "Cloudy")
